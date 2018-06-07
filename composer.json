@@ -1,5 +1,5 @@
 {
-  "name": "gree/jose",
+  "name": "itcom/jose",
   "version": "2.1.0",
   "description": "JWT, JWS and JWS implementation in PHP",
   "keywords": [

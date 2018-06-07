@@ -3,6 +3,13 @@
 use phpseclib\Crypt\RSA;
 use phpseclib\Crypt\AES;
 use phpseclib\Crypt\Random;
+use Jose\Decrypter;
+use Jose\Loader;
+use Jose\Factory\LoaderFactory;
+use Jose\Factory\DecrypterFactory;
+use Jose\Object\JWEInterface;
+use Jose\Object\JWK;
+use Jose\Object\JWKSet;
 
 class JOSE_JWE extends JOSE_JWT {
     var $plain_text;
@@ -140,8 +147,11 @@ class JOSE_JWE extends JOSE_JWT {
             case 'dir':
                 $this->jwe_encrypted_key = '';
                 break;
-            case 'A128KW':
             case 'A256KW':
+                $jwe = Loader::load2($this->raw);
+                $this->jwe_encryted_key = $jwe->getEncryptedKey();
+                break;
+            case 'A128KW':
             case 'ECDH-ES':
             case 'ECDH-ES+A128KW':
             case 'ECDH-ES+A256KW':
@@ -167,8 +177,11 @@ class JOSE_JWE extends JOSE_JWT {
             case 'dir':
                 $this->content_encryption_key = $private_key_or_secret;
                 break;
-            case 'A128KW':
             case 'A256KW':
+                $jwe = Loader::load2($this->raw);
+                $this->content_encryption_key = $jwe->getEncryptedKey();
+                break;
+            case 'A128KW':
             case 'ECDH-ES':
             case 'ECDH-ES+A128KW':
             case 'ECDH-ES+A256KW':
